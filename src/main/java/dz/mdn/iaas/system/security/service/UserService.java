@@ -14,6 +14,7 @@
 package dz.mdn.iaas.system.security.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -102,6 +103,34 @@ public class UserService {
         }
 
         return convertToDTO(userRepository.save(user));
+    }
+    
+    /**
+     * ✅ NEW METHOD: Reset user password
+     * @param username - Username of user to reset
+     * @param newPassword - New password to set
+     */
+    @Transactional
+    public void resetPassword(String username, String newPassword) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+        
+        User user = userOptional.get();
+        
+        // ✅ Encrypt the new password
+        user.setPassword(passwordEncoder.encode(newPassword));
+        
+        // ✅ Reset account status (optional - uncomment if needed)
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        
+        // ✅ Save the updated user
+        userRepository.save(user);
+        
     }
 
     @Transactional

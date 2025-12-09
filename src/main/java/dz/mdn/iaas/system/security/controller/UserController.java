@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dz.mdn.iaas.system.security.dto.ResetPasswordRequest;
 import dz.mdn.iaas.system.security.dto.UserDTO;
 import dz.mdn.iaas.system.security.service.UserService;
 import jakarta.validation.Valid;
@@ -81,5 +82,13 @@ public class UserController {
             @PathVariable Long userId,
             @PathVariable Long roleId) {
         return ResponseEntity.ok(userService.assignRole(userId, roleId));
+    }
+
+    // ✅ NEW ENDPOINT: Reset Password
+    @PostMapping("/reset-password")
+    @PreAuthorize("hasAuthority('USER:ADMIN') or #id == authentication.principal.id")
+    public ResponseEntity<String> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
+        userService.resetPassword(request.getUsername(), request.getNewPassword());
+        return ResponseEntity.ok("Password reset successfully for user: " + request.getUsername());
     }
 }
