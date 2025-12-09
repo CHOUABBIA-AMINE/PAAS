@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>dz.mdn</groupId>
-	<artifactId>iaas</artifactId>
+	<artifactId>paas</artifactId>
 	<version>0.0.1</version>
-	<name>iaas</name>
-	<description>Infrastructure As A Service</description>
+	<name>paas</name>
+	<description>Procurment As A Service</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -103,7 +103,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>IAAS-API-${project.version}</finalName>
+		<finalName>PAAS-API-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
